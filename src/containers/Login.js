@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import {Redirect} from 'react-router-dom';
+
+import {auth} from '../services';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -46,7 +47,7 @@ const styles = (theme) => ({
 
 export class Login extends Component {
   state = {
-    redirectToReferrer: false,
+    redirectToHome: false,
     username: null,
     password: null,
 
@@ -54,12 +55,6 @@ export class Login extends Component {
 
   static propTypes = {
     classes: PropTypes.object.isRequired
-  }
-
-  checkLogin() {
-    // fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true });
-    // });
   }
 
   handleChange = name => event =>  {
@@ -70,19 +65,28 @@ export class Login extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    console.log(e);
+    const {username, password} = this.state;
+    if (username === '' || password === '') return;
+    auth.login(username, password)
+      .then((token) => {
+        // TODO: Dispatch action here
+        this.setState({ redirectToHome: true });
+      })
+      .catch(e => {
+        console.log(e); //TODO: show error in UI
+      })
+  }
+
+  componentDidMount() {
+    if (auth.isAuthenticated()) {
+      this.setState({ redirectToHome: true });
+    }
   }
 
   render() {
-    if (false) { //TODO: add login check
+    if (this.state.redirectToHome) {
       return <Redirect to="/" />;
     }
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
-    const { redirectToReferrer } = this.state;
-
-    // if (redirectToReferrer) {
-      // return <Redirect to={from} />;
-    // }
 
     const {classes} = this.props;
       return (

@@ -5,8 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+
+import {auth} from '../services';
 
 const styles = {
   flex: {
@@ -18,16 +18,16 @@ const styles = {
   }
 };
 
+const logout = () => {
+  auth.logout(); //TODO: move this to container props
+}
 const Header = (props) => {
   const { classes } = props;
   return (
     <AppBar>
       <Toolbar className={classes.flex}>
-          <IconButton color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-        <Typography className={classes.title} variant="title" color="inherit">Node Api UI</Typography>
-        <Button color="inherit" >Login</Button>
+        <Typography className={classes.title} variant="title" color="inherit">React Users</Typography>
+        <Button color="inherit" onClick={logout}>Logout</Button>
       </Toolbar>
     </AppBar>
   );

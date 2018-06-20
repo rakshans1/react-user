@@ -8,8 +8,6 @@ import configureStore from './store/configureStore';
 import { Provider } from 'react-redux'
 import Routes from './routes';
 
-import Header from './containers/Header';
-
 class App extends Component {
   render() {
     const store = configureStore();
@@ -18,7 +16,6 @@ class App extends Component {
       <Provider store={store}>
         <React.Fragment>
           <CssBaseline />
-          <Header/>
           <Router>
             <Routes/>
           </Router>
