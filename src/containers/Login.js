@@ -99,6 +99,9 @@ export class Login extends Component {
 
       return (
         <div className={classes.wrap}>
+        <Typography variant="title">
+            Login
+        </Typography>
         <Card className={classes.card}>
           <form className={classes.form} autoComplete="off" onSubmit={(e) => this.onSubmit(e)}>
             <div className={classes.textWrap}>
