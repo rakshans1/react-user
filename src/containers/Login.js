@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router';
 
 import {auth} from '../services';
+import {authSuccess} from '../actions/authActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -123,9 +125,9 @@ export class Login extends Component {
 
 // })
 
-// const mapDispatchToProps = {
+const mapDispatchToProps = {
+  authSuccess
+}
 
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Login)
-export default withStyles(styles)(Login);
+Login = withStyles(styles)(Login);
+export default connect(null, mapDispatchToProps)(Login)

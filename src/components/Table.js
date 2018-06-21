@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 
+import Loading from './Loading';
+
 const columnData = [
   { id: 'avatar', label: 'Avatar' },
   { id: 'firstName', label: 'First Name' },
@@ -47,10 +49,10 @@ class RTableHead extends Component {
 
 class RTableBody extends Component {
   render() {
-    const {data, page, perPage} = this.props;
+    const {list, page, perPage} = this.props;
     return (
       <React.Fragment>
-      {data.slice(page * perPage, page * perPage + perPage).map(user => {
+      {list.slice(page * perPage, page * perPage + perPage).map(user => {
         return(
           <TableRow
             hover
@@ -112,16 +114,20 @@ class RTable extends Component {
   };
 
   render() {
-    const {classes} = this.props;
-    const { data, rowsPerPage, page } = this.state;
+    const {classes, users} = this.props;
+
+    const { rowsPerPage, page } = this.state;
+    if (users.isLoading) {
+      return <Loading/>
+    }
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="users table">
-            <RTableHead/>
-            <TableBody>
-              <RTableBody data={data} page={page} perPage={rowsPerPage}/>
-            </TableBody>
+              <RTableHead/>
+              <TableBody>
+                <RTableBody list={users.list} page={page} perPage={rowsPerPage}/>
+              </TableBody>
           </Table>
         </div>
       </Paper>

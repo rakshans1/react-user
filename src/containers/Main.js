@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import {Redirect} from 'react-router';
 
 import { withStyles } from '@material-ui/core/styles';
 
 import Header from '../components/Header';
 import Table from '../components/Table';
+
+import {auth} from '../services';
 
 const styles = (theme) => ({
   main: {
@@ -18,30 +21,43 @@ const styles = (theme) => ({
 });
 
 export class Main extends Component {
+  state = {
+    redirectToLogin: false,
+
+  };
+
   static propTypes = {
     // prop: PropTypes
   }
 
+  logout = () => {
+    auth.logout();
+    this.setState({ redirectToLogin: true });
+  }
+
   render() {
-    const {classes} = this.props;
+    const {classes, users} = this.props;
+    if (this.state.redirectToLogin) {
+      return <Redirect to="/login" />;
+    }
     return (
-      <div>
-        <Header/>
+      <React.Fragment>
+        <Header logout={this.logout}/>
         <main className={classes.main}>
-          <Table/>
+          <Table users={users}/>
         </main>
-      </div>
+      </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-
+  users: state.users
 })
 
 const mapDispatchToProps = {
 
 }
 
-Main = withStyles(styles, {name: 'Cart'})(Main);
+Main = withStyles(styles)(Main);
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
