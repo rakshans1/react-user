@@ -6,7 +6,7 @@ import {Redirect} from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 
 import Header from '../components/Header';
-import Table from '../components/Table';
+import UserTable from '../components/usertable/UserTable';
 
 import {userActions} from '../actions/usersActions';
 import { authDestroy } from '../actions/authActions';
@@ -14,10 +14,10 @@ import {auth, users} from '../services';
 
 const styles = (theme) => ({
   main: {
-    height: '100%',
-    marginTop: '64px',
+    minHeight: '100%',
+    margin: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 10}px`,
     [theme.breakpoints.down('sm')]: {
-      marginTop: '48px',
+      margin: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 2}px`,
     }
   }
 });
@@ -56,7 +56,7 @@ export class Main extends Component {
       <React.Fragment>
         <Header logout={this.logout}/>
         <main className={classes.main}>
-          <Table users={users}/>
+          <UserTable users={users}/>
         </main>
       </React.Fragment>
     )
