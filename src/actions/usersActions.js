@@ -21,3 +21,9 @@ export function fetchUserList(users) {
 export function addUserList(user) {
   return {type: USER_LIST_ADD, payload: user};
 }
+
+export const userActions = {
+  loadUserList,
+  fetchUserList,
+  addUserList,
+}

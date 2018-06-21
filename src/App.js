@@ -8,10 +8,17 @@ import configureStore from './store/configureStore';
 import { Provider } from 'react-redux'
 import Routes from './routes';
 
+import {authSuccess} from './actions/authActions';
+import { auth } from './services';
+
 class App extends Component {
   render() {
     const store = configureStore();
-    console.log(store.getState());
+    const token = auth.isAuthenticated()
+    if(token) {
+      store.dispatch(authSuccess(token));
+    }
+
     return (
       <Provider store={store}>
         <React.Fragment>

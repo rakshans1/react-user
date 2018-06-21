@@ -6,15 +6,12 @@ import {
 
 import Main from './containers/Main';
 import Login from './containers/Login';
-import PrivateRoute from './PrivateRoute';
-
-
 
 export default () => {
   return (
     <Switch>
       <Route path="/login" component={Login} />
-      <PrivateRoute path="/" component={Main} />
+      <Route path="/" component={Main} />
     </Switch>
   )
 }

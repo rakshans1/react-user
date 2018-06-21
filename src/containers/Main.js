@@ -8,7 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Header from '../components/Header';
 import Table from '../components/Table';
 
-import {auth} from '../services';
+import {userActions} from '../actions/usersActions';
+import { authDestroy } from '../actions/authActions';
+import {auth, users} from '../services';
 
 const styles = (theme) => ({
   main: {
@@ -30,14 +32,24 @@ export class Main extends Component {
     // prop: PropTypes
   }
 
+
+
+  componentDidMount() {
+    this.props.loadUserList();
+    users.getUsers()
+      .then((users) => {
+        this.props.fetchUserList(users);
+      })
+  }
+
   logout = () => {
     auth.logout();
-    this.setState({ redirectToLogin: true });
+    this.props.authDestroy();
   }
 
   render() {
-    const {classes, users} = this.props;
-    if (this.state.redirectToLogin) {
+    const {classes, users, isAuthenticated} = this.props;
+    if (!isAuthenticated) {
       return <Redirect to="/login" />;
     }
     return (
@@ -52,12 +64,15 @@ export class Main extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
   users: state.users
 })
 
 const mapDispatchToProps = {
-
+  ...userActions,
+  authDestroy
 }
+
 
 Main = withStyles(styles)(Main);
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

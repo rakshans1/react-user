@@ -2,7 +2,7 @@
 import { USER_LIST_LOADING, USER_LIST_SUCCESS, USER_LIST_ADD } from '../actions/usersActions';
 
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   list: []
 }
 

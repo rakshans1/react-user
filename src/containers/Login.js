@@ -3,13 +3,17 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router';
 
-import {auth} from '../services';
-import {authSuccess} from '../actions/authActions';
-
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import Loading from '../components/Loading';
+import {auth} from '../services';
+import {authSuccess} from '../actions/authActions';
+
+
+
 
 const styles = (theme) => ({
   wrap: {
@@ -20,6 +24,9 @@ const styles = (theme) => ({
     [theme.breakpoints.down('sm')]: {
       padding: '8px'
     }
+  },
+  loading: {
+    height: '100px',
   },
   form: {
     display: 'flex',
@@ -49,6 +56,7 @@ const styles = (theme) => ({
 
 export class Login extends Component {
   state = {
+    loading: false,
     redirectToHome: false,
     username: null,
     password: null,
@@ -69,28 +77,26 @@ export class Login extends Component {
     e.preventDefault();
     const {username, password} = this.state;
     if (username === '' || password === '') return;
+    this.setState({loading: true});
     auth.login(username, password)
       .then((token) => {
-        // TODO: Dispatch action here
-        this.setState({ redirectToHome: true });
+        this.props.authSuccess(token);
       })
       .catch(e => {
         console.log(e); //TODO: show error in UI
       })
-  }
-
-  componentDidMount() {
-    if (auth.isAuthenticated()) {
-      this.setState({ redirectToHome: true });
-    }
+      .finally(() => {
+        this.setState({loading: false});
+      })
   }
 
   render() {
-    if (this.state.redirectToHome) {
+    const {classes, isAuthenticated} = this.props;
+    const {loading} = this.state;
+    if (isAuthenticated) {
       return <Redirect to="/" />;
     }
 
-    const {classes} = this.props;
       return (
         <div className={classes.wrap}>
         <Card className={classes.card}>
@@ -115,19 +121,20 @@ export class Login extends Component {
             <Button color="primary" size="medium" variant="raised"
             type="submit">Login</Button>
           </form>
+          {loading ? (<div className={classes.loading}><Loading/></div>) : null}
         </Card>
       </div>
     )
   }
 }
 
-// const mapStateToProps = (state) => ({
-
-// })
+const mapStateToProps = (state) => ({
+  isAuthenticated : state.auth.isAuthenticated
+})
 
 const mapDispatchToProps = {
   authSuccess
 }
 
 Login = withStyles(styles)(Login);
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
