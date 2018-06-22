@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {Redirect, Route} from 'react-router';
-
+import {
+  Redirect,
+  Switch,
+  Route
+} from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 
 import Header from '../components/Header';
-import UserTable from '../components/usertable/UserTable';
 
-import {userActions} from '../actions/usersActions';
 import { authDestroy } from '../actions/authActions';
 import {authService, usersService} from '../services';
+import Users from './Users';
+import Edit from './Edit';
 
 const styles = (theme) => ({
   main: {
@@ -24,20 +27,12 @@ const styles = (theme) => ({
 
 export class Main extends Component {
   static propTypes = {
-    // prop: PropTypes
   }
 
 
 
   componentDidMount() {
-    const {users} = this.props;
-    if (!users.list.length) {
-      this.props.loadUserList();
-    }
-    usersService.getUsers()
-      .then((users) => {
-        this.props.fetchUserList(users);
-      })
+
   }
 
   logout = () => {
@@ -46,15 +41,18 @@ export class Main extends Component {
   }
 
   render() {
-    const {classes, users, isAuthenticated, history} = this.props;
+    const {classes, isAuthenticated} = this.props;
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
     }
     return (
       <React.Fragment>
-        <Header logout={this.logout}/>
+        <Header logout={this.logout} isAuthenticated={isAuthenticated}/>
         <main className={classes.main}>
-          <UserTable users={users} history={history}/>
+          <Switch>
+            <Route path="/edit/:id" component={Edit} />
+            <Route path="/" component={Users} />
+          </Switch>
         </main>
       </React.Fragment>
     )
@@ -63,11 +61,9 @@ export class Main extends Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  users: state.users
 })
 
 const mapDispatchToProps = {
-  ...userActions,
   authDestroy
 }
 

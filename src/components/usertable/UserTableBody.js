@@ -50,7 +50,7 @@ class UserTableBody extends Component {
             <TableCell>
               {user.gender ? 'Male' : 'Female'}
             </TableCell>
-            <TableCell>
+            <TableCell padding="none">
               {getAge(user.dob)}
             </TableCell>
             <TableCell>

@@ -10,7 +10,7 @@ const columnData = [
   { id: 'firstName', label: 'First Name' },
   { id: 'lastName', label: 'Last Name' },
   { id: 'gender', label: 'Gender' },
-  { id: 'age',label: 'Age' },
+  { id: 'age',disablePadding: true, label: 'Age' },
   { id: 'email', label: 'Email' },
   { id: 'mobile',label: 'Mobile' },
 ];
