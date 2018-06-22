@@ -1,5 +1,5 @@
-import auth from './Auth';
+import authService from './Auth';
 import api from './Api';
-import users from './Users';
+import usersService from './Users';
 
-export  { auth, api, users}
+export  { authService, api, usersService}

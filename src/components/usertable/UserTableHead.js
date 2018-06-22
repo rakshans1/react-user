@@ -23,7 +23,6 @@ class UserTableHead extends Component {
         <TableRow>
           <TableCell padding="checkbox">
             <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
             />
@@ -38,6 +37,8 @@ class UserTableHead extends Component {
               </TableCell>
             )
           })}
+          <TableCell padding="dense">
+          </TableCell>
         </TableRow>
       </TableHead>
     )

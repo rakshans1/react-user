@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Tab } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Checkbox from '@material-ui/core/Checkbox';
+import EditIcon from '@material-ui/icons/Edit'
+
+import getAge from '../../utils/getAge';
 
 const styles = (theme) => ({
   row: {
+    cursor: 'pointer',
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
     }
@@ -16,7 +19,7 @@ const styles = (theme) => ({
 
 class UserTableBody extends Component {
   render() {
-    const {list, page, perPage, classes, handleClick, isSelectedfn} = this.props;
+    const {list, page, perPage, classes, handleClick, isSelectedfn, edit} = this.props;
     return (
       <React.Fragment>
       {list.slice(page * perPage, page * perPage + perPage).map(user => {
@@ -48,13 +51,16 @@ class UserTableBody extends Component {
               {user.gender ? 'Male' : 'Female'}
             </TableCell>
             <TableCell>
-              {user.age}
+              {getAge(user.dob)}
             </TableCell>
             <TableCell>
               {user.email}
             </TableCell>
             <TableCell>
               {user.mobileNumber}
+            </TableCell>
+            <TableCell>
+              <EditIcon onClick={(e) => edit(e, user.id)} />
             </TableCell>
           </TableRow>
         )

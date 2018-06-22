@@ -10,18 +10,22 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import Loading from '../components/Loading';
-import {auth} from '../services';
+import {authService} from '../services';
 import {authSuccess} from '../actions/authActions';
 
 
 
 
 const styles = (theme) => ({
+  title: {
+    textAlign: 'center',
+    padding: '48px 24px'
+  },
   wrap: {
     display: 'flex',
     justifyContent: 'center',
     height: '100%',
-    padding: '48px',
+    padding: '0 48px',
     [theme.breakpoints.down('sm')]: {
       padding: '8px'
     }
@@ -79,7 +83,7 @@ export class Login extends Component {
     const {username, password} = this.state;
     if (username === '' || password === '') return;
     this.setState({loading: true});
-    auth.login(username, password)
+    authService.login(username, password)
       .then((token) => {
         this.props.authSuccess(token);
       })
@@ -99,10 +103,11 @@ export class Login extends Component {
     }
 
       return (
-        <div className={classes.wrap}>
-        <Typography variant="title">
+        <React.Fragment>
+        <Typography variant="display1" className={classes.title}>
             Login
         </Typography>
+        <div className={classes.wrap}>
         <Card className={classes.card}>
           <form className={classes.form} autoComplete="off" onSubmit={(e) => this.onSubmit(e)}>
             <div className={classes.textWrap}>
@@ -128,6 +133,7 @@ export class Login extends Component {
           {loading ? (<div className={classes.loading}><Loading/></div>) : null}
         </Card>
       </div>
+      </React.Fragment>
     )
   }
 }

@@ -6,12 +6,14 @@ import {
 
 import Main from './containers/Main';
 import Login from './containers/Login';
+import Edit from './containers/Edit';
 
 export default () => {
   return (
     <Switch>
       <Route path="/login" component={Login} />
-      <Route path="/" component={Main} />
+      <Route path="/edit/:id" component={Edit} />
+      <Route path="/" exact component={Main} />
     </Switch>
   )
 }

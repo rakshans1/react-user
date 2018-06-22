@@ -9,12 +9,12 @@ import { Provider } from 'react-redux'
 import Routes from './routes';
 
 import {authSuccess} from './actions/authActions';
-import { auth } from './services';
+import { authService } from './services';
 
 class App extends Component {
   render() {
     const store = configureStore();
-    const token = auth.isAuthenticated()
+    const token = authService.isAuthenticated()
     if(token) {
       store.dispatch(authSuccess(token));
     }

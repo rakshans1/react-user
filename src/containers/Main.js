@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {Redirect} from 'react-router';
+import {Redirect, Route} from 'react-router';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -10,11 +10,11 @@ import UserTable from '../components/usertable/UserTable';
 
 import {userActions} from '../actions/usersActions';
 import { authDestroy } from '../actions/authActions';
-import {auth, users} from '../services';
+import {authService, usersService} from '../services';
 
 const styles = (theme) => ({
   main: {
-    minHeight: '100%',
+    height: '100%',
     margin: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 10}px`,
     [theme.breakpoints.down('sm')]: {
       margin: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 2}px`,
@@ -23,11 +23,6 @@ const styles = (theme) => ({
 });
 
 export class Main extends Component {
-  state = {
-    redirectToLogin: false,
-
-  };
-
   static propTypes = {
     // prop: PropTypes
   }
@@ -35,20 +30,23 @@ export class Main extends Component {
 
 
   componentDidMount() {
-    this.props.loadUserList();
-    users.getUsers()
+    const {users} = this.props;
+    if (!users.list.length) {
+      this.props.loadUserList();
+    }
+    usersService.getUsers()
       .then((users) => {
         this.props.fetchUserList(users);
       })
   }
 
   logout = () => {
-    auth.logout();
+    authService.logout();
     this.props.authDestroy();
   }
 
   render() {
-    const {classes, users, isAuthenticated} = this.props;
+    const {classes, users, isAuthenticated, history} = this.props;
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
     }
@@ -56,7 +54,7 @@ export class Main extends Component {
       <React.Fragment>
         <Header logout={this.logout}/>
         <main className={classes.main}>
-          <UserTable users={users}/>
+          <UserTable users={users} history={history}/>
         </main>
       </React.Fragment>
     )

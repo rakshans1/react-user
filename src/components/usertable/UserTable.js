@@ -72,6 +72,11 @@ class UserTable extends Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  handleEdit = (event, id) => {
+    event.stopPropagation();
+    this.props.history.push(`/edit/${id}`);
+  }
+
   render() {
     const {classes, users} = this.props;
 
@@ -96,6 +101,7 @@ class UserTable extends Component {
                   perPage={rowsPerPage}
                   isSelectedfn={this.isSelected}
                   handleClick={this.handleClick}
+                  edit={this.handleEdit}
                   />
               </TableBody>
           </Table>
@@ -105,7 +111,7 @@ class UserTable extends Component {
           count={users.list.length}
           page={page}
           rowsPerPage={rowsPerPage}
-          rowsPerPageOptions="0"
+          rowsPerPageOptions={[]}
           labelRowsPerPage="Users per page"
           backIconButtonProps={{
             'aria-label': 'Previous Page',
