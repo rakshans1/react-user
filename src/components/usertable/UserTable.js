@@ -16,7 +16,6 @@ import Loading from '../Loading';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 4
   },
   table: {
     minWidth: 1020,

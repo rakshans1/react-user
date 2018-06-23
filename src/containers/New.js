@@ -34,10 +34,8 @@ const styles = (theme) => ({
   },
   card: {
     minWidth: '480px',
-    padding: '32px',
     [theme.breakpoints.down('sm')]: {
       minWidth: '304px',
-      padding: '24px 8px',
     }
   },
 })
@@ -53,6 +51,7 @@ class New extends Component {
   }
 
   onSubmit = (values) => {
+    this.setState({loading: true});
     const user = Object.assign({}, values, {createdAt: new Date().toISOString()})
     usersService.addUser(user)
       .then((res) => {
@@ -62,6 +61,7 @@ class New extends Component {
       .catch(e => {
         console.log(e);
       })
+      .finally(() => this.setState({loading: false}))
   }
 
   render() {

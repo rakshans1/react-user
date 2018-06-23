@@ -16,6 +16,9 @@ const styles = (theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
     }
+  },
+  capitalize: {
+    textTransform: 'capitalize'
   }
 })
 
@@ -42,13 +45,13 @@ const UserTableBody = (props) => {
             <TableCell>
               <Avatar alt={user.firstName} src={user.avatar}/>
             </TableCell>
-            <TableCell>
+            <TableCell className={classes.capitalize}>
               {user.firstName}
             </TableCell>
-            <TableCell>
+            <TableCell className={classes.capitalize}>
               {user.lastName}
             </TableCell>
-            <TableCell>
+            <TableCell className={classes.capitalize}>
               {user.gender}
             </TableCell>
             <TableCell padding="none">

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import UserTable from '../components/usertable/UserTable';
 
@@ -10,14 +11,21 @@ import {userActions} from '../actions/usersActions';
 import {usersService} from '../services';
 
 const styles = (theme) => ({
-
+  linearLoader: {
+    height: '5px',
+    marginTop: theme.spacing.unit * 4
+  },
 });
 
 export class Users extends Component {
-  static propTypes = {
+  state = {
+    loading: false
   }
 
-
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired
+  }
 
   componentDidMount() {
     const {users} = this.props;
@@ -32,17 +40,23 @@ export class Users extends Component {
   }
 
   deleteUser = (id) => {
+    this.setState({loading: true})
     usersService.deleteUser(id)
     .then((user) => {
       this.props.deleteUser(user);
     })
     .catch(e => console.log(e))
+    .finally(() => this.setState({loading: false}))
   }
 
   render() {
-    const {users, history} = this.props;
+    const { users, history, classes } = this.props;
+    const {loading} = this.state;
     return (
-      <UserTable users={users} history={history} deleteUser={this.deleteUser}/>
+      <React.Fragment>
+        {loading ? <div className={classes.linearLoader}><LinearProgress/></div> : <div className={classes.linearLoader}></div>}
+        <UserTable users={users} history={history} deleteUser={this.deleteUser}/>
+      </React.Fragment>
     )
   }
 }
