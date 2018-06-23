@@ -66,7 +66,7 @@ class Edit extends Component {
       this.setState({user});
     })
     .catch(e => {
-        if (e.response.statue = 404) {
+        if (e.response.status === 404) {
           this.props.history.push('/');
         }
         console.log(e);

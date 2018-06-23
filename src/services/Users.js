@@ -73,6 +73,24 @@ class Users {
       }
     })
   }
+
+  /**
+   * Delete user information
+   *
+   * @param {Object} user
+   * @returns {object} user
+   * @memberof Users
+   */
+  deleteUser(userId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await api.delete(`/users/${userId}`);
+        resolve(res);
+      } catch (e) {
+        reject(e);
+      }
+    })
+  }
 }
 
 export default new Users();

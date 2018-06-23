@@ -28,12 +28,21 @@ export class Users extends Component {
       .then((users) => {
         this.props.fetchUserList(users);
       })
+      .catch(e => console.log(e))
+  }
+
+  deleteUser = (id) => {
+    usersService.deleteUser(id)
+    .then((user) => {
+      this.props.deleteUser(user);
+    })
+    .catch(e => console.log(e))
   }
 
   render() {
     const {users, history} = this.props;
     return (
-      <UserTable users={users} history={history}/>
+      <UserTable users={users} history={history} deleteUser={this.deleteUser}/>
     )
   }
 }

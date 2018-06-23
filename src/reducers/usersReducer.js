@@ -39,6 +39,10 @@ function authReducer(state = initialState, action) {
           return user
         })
       })
+    case USER_DELETE:
+      return Object.assign({}, state, {
+        list: state.list.filter(user => user.id !== action.payload.id)
+      })
     default:
       return state;
   }

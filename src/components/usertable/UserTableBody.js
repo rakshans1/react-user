@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import Checkbox from '@material-ui/core/Checkbox';
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit'
 
 import getAge from '../../utils/getAge';
@@ -19,26 +19,26 @@ const styles = (theme) => ({
   }
 })
 
+const sortRow = (order, orderBy) => {
+  return order === 'desc'
+  ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
+  : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1);
+}
+
 const UserTableBody = (props) => {
-  const {list, page, perPage, classes, handleClick, isSelectedfn, edit} = props;
+  const { list, page, perPage, order, orderBy, classes, editUser, deleteUser } = props;
     return (
       <React.Fragment>
-      {list.slice(page * perPage, page * perPage + perPage).map(user => {
-        const isSelected = isSelectedfn(user.id);
+      {list
+        .sort(sortRow(order, orderBy))
+        .slice(page * perPage, page * perPage + perPage).map(user => {
         return(
           <TableRow
             hover
             key={user.id}
             className={classes.row}
-            onClick={event => handleClick(event, user.id)}
-            role="checkbox"
-            aria-checked={isSelected}
             tabIndex={-1}
-            selected={isSelected}
           >
-            <TableCell padding="checkbox">
-              <Checkbox checked={isSelected} />
-            </TableCell>
             <TableCell>
               <Avatar alt={user.firstName} src={user.avatar}/>
             </TableCell>
@@ -60,8 +60,11 @@ const UserTableBody = (props) => {
             <TableCell>
               {user.mobileNumber}
             </TableCell>
-            <TableCell>
-              <EditIcon onClick={(e) => edit(e, user.id)} />
+            <TableCell padding="checkbox">
+              <EditIcon color="secondary" onClick={(e) => editUser(e, user.id)} />
+            </TableCell>
+            <TableCell padding="checkbox">
+              <DeleteIcon color="secondary" onClick={(e) => deleteUser(user.id)} />
             </TableCell>
           </TableRow>
         )
@@ -72,11 +75,13 @@ const UserTableBody = (props) => {
 
 UserTableBody.propTypes = {
   classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
   list: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
-  edit: PropTypes.func.isRequired
+  editUser: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(UserTableBody);

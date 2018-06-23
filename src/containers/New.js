@@ -15,7 +15,7 @@ import UserForm from '../components/UserForm';
 const styles = (theme) => ({
   title: {
     textAlign: 'center',
-    paddingBottom: '16px'
+    padding: `${theme.spacing.unit * 2}px 0`
   },
   wrap: {
     display: 'flex',
@@ -57,6 +57,7 @@ class New extends Component {
     usersService.addUser(user)
       .then((res) => {
         this.props.addUser(res);
+        this.props.history.push('/');
       })
       .catch(e => {
         console.log(e);

@@ -29,48 +29,29 @@ const styles = theme => ({
 
 class UserTable extends Component {
   state = {
+    order: 'desc',
+    orderBy: 'createdAt',
     page: 0,
     rowsPerPage: 20,
-    selected: [],
   }
 
   static propTypes = {
     classes: PropTypes.object.isRequired
   }
 
-  handleSelectAllClick = (event, checked) => {
-    if (checked) {
-      this.setState({ selected: this.props.users.list.map(n => n.id) });
-      return;
-    }
-    this.setState({ selected: [] });
-  };
-
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
-
-  handleClick = (event, id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    this.setState({ selected: newSelected });
-  };
-
   handleChangePage = (event, page) => {
     this.setState({ page });
+  };
+
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    let order = 'desc';
+
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc';
+    }
+
+    this.setState({ order, orderBy });
   };
 
   handleChangeRowsPerPage = event => {
@@ -83,21 +64,21 @@ class UserTable extends Component {
   }
 
   render() {
-    const {classes, users} = this.props;
+    const {classes, users, deleteUser} = this.props;
 
-    const { rowsPerPage, page, selected } = this.state;
+    const { order, orderBy, rowsPerPage, page } = this.state;
     if (users.isLoading) {
       return <Loading/>
     }
     return (
       <Paper className={classes.root}>
-        <UserTableToolbar numSelected={selected.length} />
+        <UserTableToolbar />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="users table">
               <UserTableHead
-                numSelected={selected.length}
-                onSelectAllClick={this.handleSelectAllClick}
-                rowCount={users.list.length}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={this.handleRequestSort}
               />
               <TableBody>
                 <UserTableBody
@@ -106,8 +87,11 @@ class UserTable extends Component {
                   perPage={rowsPerPage}
                   isSelectedfn={this.isSelected}
                   handleClick={this.handleClick}
-                  edit={this.handleEdit}
-                  />
+                  editUser={this.handleEdit}
+                  deleteUser={deleteUser}
+                  order={order}
+                  orderBy={orderBy}
+                />
               </TableBody>
           </Table>
         </div>
