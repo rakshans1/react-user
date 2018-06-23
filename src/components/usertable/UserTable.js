@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
@@ -15,7 +16,7 @@ import Loading from '../Loading';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 4
   },
   table: {
     minWidth: 1020,
@@ -31,6 +32,10 @@ class UserTable extends Component {
     page: 0,
     rowsPerPage: 20,
     selected: [],
+  }
+
+  static propTypes = {
+    classes: PropTypes.object.isRequired
   }
 
   handleSelectAllClick = (event, checked) => {

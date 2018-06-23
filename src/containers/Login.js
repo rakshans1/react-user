@@ -8,8 +8,8 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-import Loading from '../components/Loading';
 import {authService} from '../services';
 import {authSuccess} from '../actions/authActions';
 
@@ -33,17 +33,19 @@ const styles = (theme) => ({
   loading: {
     height: '100px',
   },
+  linearLoader: {
+    height: '5px'
+  },
   form: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    padding: '32px'
   },
   card: {
     height: '400px',
     minWidth: '480px',
-    padding: '32px',
     [theme.breakpoints.down('sm')]: {
       minWidth: '304px',
-      padding: '24px 8px',
     }
   },
   textField: {
@@ -109,6 +111,7 @@ export class Login extends Component {
         </Typography>
         <div className={classes.wrap}>
         <Card className={classes.card}>
+          {loading ? <LinearProgress/> : <div className={classes.linearLoader}></div>}
           <form className={classes.form} autoComplete="off" onSubmit={(e) => this.onSubmit(e)}>
             <div className={classes.textWrap}>
             <TextField
@@ -130,7 +133,7 @@ export class Login extends Component {
             <Button color="primary" size="medium" variant="raised"
             type="submit">Login</Button>
           </form>
-          {loading ? (<div className={classes.loading}><Loading/></div>) : null}
+
         </Card>
       </div>
       </React.Fragment>

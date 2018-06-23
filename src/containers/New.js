@@ -7,7 +7,6 @@ import Card from '@material-ui/core/Card';
 
 import Typography from '@material-ui/core/Typography';
 
-import Loading from '../components/Loading';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {usersService} from '../services';
 import {userActions} from '../actions/usersActions';
@@ -16,7 +15,7 @@ import UserForm from '../components/UserForm';
 const styles = (theme) => ({
   title: {
     textAlign: 'center',
-    padding: `${theme.spacing.unit * 2}px 0`
+    paddingBottom: '16px'
   },
   wrap: {
     display: 'flex',
@@ -35,75 +34,49 @@ const styles = (theme) => ({
   },
   card: {
     minWidth: '480px',
+    padding: '32px',
     [theme.breakpoints.down('sm')]: {
       minWidth: '304px',
+      padding: '24px 8px',
     }
   },
 })
 
 
-class Edit extends Component {
+class New extends Component {
   state = {
     loading: false,
-    userId: null,
-    user: null,
   };
 
   static propTypes = {
     classes: PropTypes.object.isRequired
   }
 
-  componentDidMount() {
-    const { match } = this.props;
-    const userId = match.params.id;
-    this.setState({userId});
-    this.getUser(userId);
-  }
-
-  getUser(userId) {
-    usersService.getUser(userId)
-    .then(user => {
-      this.setState({user});
-    })
-    .catch(e => {
-        if (e.response.statue = 404) {
-          this.props.history.push('/');
-        }
-        console.log(e);
-      })
-    }
-
-    onSubmit = (values) => {
-      this.setState({loading: true});
-      const  { userId } = this.state;
-      usersService.editUser(userId, values)
+  onSubmit = (values) => {
+    const user = Object.assign({}, values, {createdAt: new Date().toISOString()})
+    usersService.addUser(user)
       .then((res) => {
-        this.props.editUser(res);
+        this.props.addUser(res);
       })
       .catch(e => {
         console.log(e);
       })
-      .finally(() => this.setState({loading: false}))
   }
 
   render() {
     const {classes} = this.props;
-    const {loading, user} = this.state;
-    if (!user) {
-      return <Loading/>
-    }
+    const {loading} = this.state;
     return (
       <React.Fragment>
         <Typography variant="display1" className={classes.title}>
-            Edit user
+            Add user
         </Typography>
         <div className={classes.wrap}>
         <Card className={classes.card}>
           {loading ? <LinearProgress/> : <div className={classes.linearLoader}></div>}
           <UserForm
-            mode="edit"
+            mode="new"
             onSubmit={this.onSubmit}
-            values={user}
           />
         </Card>
       </div>
@@ -120,5 +93,5 @@ const mapStateToProps = (state) => ({
 
 // }
 
-Edit = withStyles(styles)(Edit);
-export default connect(mapStateToProps, userActions)(Edit)
+New = withStyles(styles)(New);
+export default connect(mapStateToProps, userActions)(New)

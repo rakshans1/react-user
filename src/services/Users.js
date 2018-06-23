@@ -6,7 +6,7 @@ import api from './Api';
  */
 class Users {
   /**
-   *
+   * Gets list of user from endpoint
    *
    * @returns promise
    * @memberof Users
@@ -15,6 +15,58 @@ class Users {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await api.get('/users');
+        resolve(res);
+      } catch (e) {
+        reject(e);
+      }
+    })
+  }
+  /**
+   *  Get single user from endpoint
+   *
+   * @param {number} userId
+   * @returns {promise} user
+   * @memberof Users
+   */
+  getUser(userId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await api.get(`/users/${userId}`);
+        resolve(res);
+      } catch (e) {
+        reject(e);
+      }
+    })
+  }
+  /**
+   * Adds new user to the endpoint
+   *
+   * @param {Object} user
+   * @returns {object} user
+   * @memberof Users
+   */
+  addUser(user) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await api.post('/users', user);
+        resolve(res);
+      } catch (e) {
+        reject(e);
+      }
+    })
+  }
+
+  /**
+   * Edit user information
+   *
+   * @param {Object} user
+   * @returns {object} user
+   * @memberof Users
+   */
+  editUser(userId, user) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await api.put(`/users/${userId}`, user);
         resolve(res);
       } catch (e) {
         reject(e);

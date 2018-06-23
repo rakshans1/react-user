@@ -14,13 +14,14 @@ import { authDestroy } from '../actions/authActions';
 import {authService, usersService} from '../services';
 import Users from './Users';
 import Edit from './Edit';
+import New from './New';
 
 const styles = (theme) => ({
   main: {
     height: '100%',
-    margin: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 10}px`,
+    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 10}px 0`,
     [theme.breakpoints.down('sm')]: {
-      margin: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 2}px`,
+      padding: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 2}px`,
     }
   }
 });
@@ -50,8 +51,9 @@ export class Main extends Component {
         <Header logout={this.logout} isAuthenticated={isAuthenticated}/>
         <main className={classes.main}>
           <Switch>
+            <Route path="/new" component={New} />
             <Route path="/edit/:id" component={Edit} />
-            <Route path="/" component={Users} />
+            <Route path="/" exact component={Users} />
           </Switch>
         </main>
       </React.Fragment>

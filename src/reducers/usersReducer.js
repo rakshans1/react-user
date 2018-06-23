@@ -1,5 +1,11 @@
 
-import { USER_LIST_LOADING, USER_LIST_SUCCESS, USER_LIST_ADD } from '../actions/usersActions';
+import {
+  USER_LIST_LOADING,
+  USER_LIST_SUCCESS,
+  USER_ADD,
+  USER_EDIT,
+  USER_DELETE
+} from '../actions/usersActions';
 
 const initialState = {
   isLoading: false,
@@ -16,6 +22,22 @@ function authReducer(state = initialState, action) {
       return Object.assign({}, state, {
         isLoading: false,
         list: action.payload
+      })
+    case USER_ADD:
+      return Object.assign({}, state, {
+        list: [
+          ...state.list,
+          action.payload
+        ]
+      })
+    case USER_EDIT:
+      return Object.assign({}, state, {
+        list: state.list.map((user) => {
+          if (user.id === action.payload.id) {
+            return Object.assign({}, action.payload)
+          }
+          return user
+        })
       })
     default:
       return state;

@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
+
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { withStyles, Tab } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import EditIcon from '@material-ui/icons/Edit'
@@ -17,9 +19,8 @@ const styles = (theme) => ({
   }
 })
 
-class UserTableBody extends Component {
-  render() {
-    const {list, page, perPage, classes, handleClick, isSelectedfn, edit} = this.props;
+const UserTableBody = (props) => {
+  const {list, page, perPage, classes, handleClick, isSelectedfn, edit} = props;
     return (
       <React.Fragment>
       {list.slice(page * perPage, page * perPage + perPage).map(user => {
@@ -48,7 +49,7 @@ class UserTableBody extends Component {
               {user.lastName}
             </TableCell>
             <TableCell>
-              {user.gender ? 'Male' : 'Female'}
+              {user.gender}
             </TableCell>
             <TableCell padding="none">
               {getAge(user.dob)}
@@ -67,7 +68,15 @@ class UserTableBody extends Component {
       })}
       </React.Fragment>
     )
-  }
+}
+
+UserTableBody.propTypes = {
+  classes: PropTypes.object.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  list: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
+  edit: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(UserTableBody);

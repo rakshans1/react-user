@@ -7,7 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -56,7 +59,11 @@ const UserTableToolbar =  (props) => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : null}
+        ) : (
+            <IconButton aria-label="New user">
+              <Link to="/new"><AddIcon /></Link>
+            </IconButton>
+        )}
       </div>
     </Toolbar>
   )
