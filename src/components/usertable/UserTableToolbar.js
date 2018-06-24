@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 import { Link } from 'react-router-dom';
 

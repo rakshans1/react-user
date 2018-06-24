@@ -62,6 +62,11 @@ class UserTable extends Component {
     this.props.history.push(`/edit/${id}`);
   }
 
+  handleView = (event, id) => {
+    event.stopPropagation();
+    this.props.history.push(`/user/${id}`);
+  }
+
   render() {
     const {classes, users, deleteUser} = this.props;
 
@@ -88,6 +93,7 @@ class UserTable extends Component {
                   handleClick={this.handleClick}
                   editUser={this.handleEdit}
                   deleteUser={deleteUser}
+                  viewUser={this.handleView}
                   order={order}
                   orderBy={orderBy}
                 />

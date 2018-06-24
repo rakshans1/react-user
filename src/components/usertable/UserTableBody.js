@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core';
@@ -29,7 +28,7 @@ const sortRow = (order, orderBy) => {
 }
 
 const UserTableBody = (props) => {
-  const { list, page, perPage, order, orderBy, classes, editUser, deleteUser } = props;
+  const { list, page, perPage, order, orderBy, classes, editUser, deleteUser, viewUser } = props;
     return (
       <React.Fragment>
       {list
@@ -41,6 +40,7 @@ const UserTableBody = (props) => {
             key={user.id}
             className={classes.row}
             tabIndex={-1}
+            onClick={(e) => viewUser(e, user.id)}
           >
             <TableCell>
               <Avatar alt={user.firstName} src={user.avatar}/>
@@ -83,6 +83,7 @@ UserTableBody.propTypes = {
   perPage: PropTypes.number.isRequired,
   editUser: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
+  viewUser: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired
 }

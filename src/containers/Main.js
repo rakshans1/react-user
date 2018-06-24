@@ -11,9 +11,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Header from '../components/Header';
 
 import { authDestroy } from '../actions/authActions';
-import {authService, usersService} from '../services';
+import {authService} from '../services';
 import Users from './Users';
 import Edit from './Edit';
+import View from './View';
 import New from './New';
 
 const styles = (theme) => ({
@@ -28,12 +29,7 @@ const styles = (theme) => ({
 
 export class Main extends Component {
   static propTypes = {
-  }
-
-
-
-  componentDidMount() {
-
+    isAuthenticated: PropTypes.bool.isRequired
   }
 
   logout = () => {
@@ -52,6 +48,7 @@ export class Main extends Component {
         <main className={classes.main}>
           <Switch>
             <Route path="/new" component={New} />
+            <Route path="/user/:id" component={View} />
             <Route path="/edit/:id" component={Edit} />
             <Route path="/" exact component={Users} />
           </Switch>
