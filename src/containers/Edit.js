@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import Loading from '../components/Loading';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -47,6 +50,7 @@ class Edit extends Component {
     loading: false,
     userId: null,
     user: null,
+    snack: false,
   };
 
   static propTypes = {
@@ -79,12 +83,17 @@ class Edit extends Component {
       usersService.editUser(userId, values)
       .then((res) => {
         this.props.editUser(res);
+        this.setState({snack: true});
       })
       .catch(e => {
         console.log(e);
       })
       .finally(() => this.setState({loading: false}))
   }
+
+  handleSnackClose = (event, reason) => {
+    this.setState({ snack: false });
+  };
 
   render() {
     const {classes} = this.props;
@@ -107,6 +116,26 @@ class Edit extends Component {
           />
         </Card>
       </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snack}
+          autoHideDuration={6000}
+          onClose={this.handleSnackClose}
+          message={<span id="message-id">User Updated.</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleSnackClose}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       </React.Fragment>
     )
   }

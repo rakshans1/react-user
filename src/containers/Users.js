@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import UserTable from '../components/usertable/UserTable';
 
@@ -19,7 +22,8 @@ const styles = (theme) => ({
 
 export class Users extends Component {
   state = {
-    loading: false
+    loading: false,
+    snack: false,
   }
 
   static propTypes = {
@@ -44,10 +48,15 @@ export class Users extends Component {
     usersService.deleteUser(id)
     .then((user) => {
       this.props.deleteUser(user);
+      this.setState({ snack: true });
     })
     .catch(e => console.log(e))
     .finally(() => this.setState({loading: false}))
   }
+
+  handleSnackClose = (event, reason) => {
+    this.setState({ snack: false });
+  };
 
   render() {
     const { users, history, classes } = this.props;
@@ -56,6 +65,26 @@ export class Users extends Component {
       <React.Fragment>
         {loading ? <div className={classes.linearLoader}><LinearProgress/></div> : <div className={classes.linearLoader}></div>}
         <UserTable users={users} history={history} deleteUser={this.deleteUser}/>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snack}
+          autoHideDuration={6000}
+          onClose={this.handleSnackClose}
+          message={<span id="message-id">User Deleted.</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleSnackClose}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       </React.Fragment>
     )
   }

@@ -12,17 +12,24 @@ import { Provider } from 'react-redux'
 
 import theme from './Theme';
 
-import {authSuccess} from './actions/authActions';
+import {authSuccess, authDestroy} from './actions/authActions';
 import { authService } from './services';
+import sessionTimeout from './utils/sessionTimeout';
 
 import Main from './containers/Main';
 import Login from './containers/Login';
 
+const store = configureStore();
+
+const logout = () => {
+  authService.logout();
+  store.dispatch(authDestroy());
+}
 class App extends Component {
   render() {
-    const store = configureStore();
-    const token = authService.isAuthenticated()
+    const token = authService.isAuthenticated();
     if(token) {
+      sessionTimeout(logout);
       store.dispatch(authSuccess(token));
     }
 

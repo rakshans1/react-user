@@ -51,6 +51,7 @@ const UserTableHead = (props) => {
         })}
         <TableCell padding="dense"/>
         <TableCell padding="dense"/>
+        <TableCell padding="dense"/>
       </TableRow>
     </TableHead>
   )
