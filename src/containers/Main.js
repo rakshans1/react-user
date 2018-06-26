@@ -20,7 +20,7 @@ import New from './New';
 const styles = (theme) => ({
   main: {
     height: '100%',
-    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 10}px 0`,
+    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 8}px 0`,
     [theme.breakpoints.down('sm')]: {
       padding: `${theme.spacing.unit * 10}px ${theme.spacing.unit * 2}px`,
     }
@@ -38,7 +38,7 @@ export class Main extends Component {
   }
 
   render() {
-    const {classes, isAuthenticated} = this.props;
+    const { classes, isAuthenticated } = this.props;
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
     }

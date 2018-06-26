@@ -7,13 +7,13 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 
 const columnData = [
-  { id: 'avatar', sortable: false,label: 'Avatar' },
-  { id: 'firstName', sortable: true,label: 'First Name' },
-  { id: 'lastName', sortable: true,label: 'Last Name' },
-  { id: 'gender', sortable: true,label: 'Gender' },
-  { id: 'age',disablePadding: true, sortable: true,label: 'Age' },
-  { id: 'email', sortable: true,label: 'Email' },
-  { id: 'mobile',sortable: true,label: 'Mobile' },
+  { id: 'avatar', disablePadding: false, sortable: false,label: 'Avatar' },
+  { id: 'firstName', disablePadding: false, sortable: true,label: 'First Name' },
+  { id: 'lastName', disablePadding: false, sortable: true,label: 'Last Name' },
+  { id: 'gender', disablePadding: false, sortable: true,label: 'Gender' },
+  { id: 'age', disablePadding: true, sortable: true,label: 'Age' },
+  { id: 'email', disablePadding: false, sortable: true,label: 'Email' },
+  { id: 'mobile', disablePadding: false,sortable: true,label: 'Mobile' },
 ];
 
 const UserTableHead = (props) => {

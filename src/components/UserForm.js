@@ -143,7 +143,6 @@ class UserForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const result = this.validateField(true);
-    console.log(result);
     if (result) return;
     this.props.onSubmit(this.state.data);
   }
