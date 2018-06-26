@@ -31,13 +31,25 @@ const styles = (theme) => ({
 
 class UserForm extends Component {
   state = {
-    avatar: "",
-    firstName: "",
-    lastName: "",
-    gender: "",
-    dob: "",
-    email: "",
-    mobileNumber: "",
+    data: {
+      avatar: "",
+      firstName: "",
+      lastName: "",
+      gender: "",
+      dob: "",
+      email: "",
+      mobileNumber: "",
+    },
+    errors: {
+      avatar: false,
+      firstName: false,
+      lastName: false,
+      gender: false,
+      dob: false,
+      email: false,
+      mobileNumber: false,
+    },
+    formInvalid: false
   };
 
   static propTypes = {
@@ -46,25 +58,99 @@ class UserForm extends Component {
   }
 
   componentDidMount() {
-    const { values } = this.props;
+    const { values, mode } = this.props;
+    if (mode === 'new') {
+      this.setState({formInvalid: true});
+    }
     if (!values) return;
-    this.setState(values);
+    this.setState({data:values});
   }
 
   handleChange = name => event =>  {
+    const { data:prevData } = this.state;
+    const data = { ...prevData }
+    data[name] = event.target.value;
     this.setState({
-      [name]: event.target.value
-    })
+      data: data,
+      current: name
+    }, this.validateField)
+  }
+
+  validateField(all) {
+    const { current, data } = this.state;
+    const value = this.state.data[current];
+    let validationError = {};
+
+    if (all) {
+      for(let f in data) {
+        validationError[f] = this.validationRules(f, data[f]);
+      }
+    } else {
+      validationError[current] = this.validationRules(current, value);
+    }
+    const { errors:prevData } = this.state;
+    const errors = { ...prevData, ...validationError }
+    this.setState({
+      errors: errors
+    }, this.validateForm);
+
+    let invalid = false;
+    for(let f in validationError) {
+      if (validationError[f]) {
+        invalid = true;
+        break;
+      }
+    }
+    return invalid;
+  }
+
+  validateForm() {
+    let invalid = false;
+    const { errors } = this.state;
+    for(let f in errors) {
+      if (errors[f]) {
+        invalid = true;
+        break;
+      }
+    }
+    this.setState({formInvalid: invalid});
+  }
+
+  validationRules(current, value) {
+    let validationError = false;
+    switch(current) {
+      case 'email':
+        const emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        validationError = !emailValid;
+        break;
+      case 'avatar':
+        const avatarValid = value.match(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i);
+        validationError = !avatarValid;
+        break;
+      case 'firstName':
+      case 'lastName':
+      case 'gender':
+      case 'dob':
+        const isValid = value.length === 0;
+        validationError = isValid;
+        break;
+      default:
+        break;
+    }
+    return validationError;
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    //TODO: Validations
-    this.props.onSubmit(this.state);
+    const result = this.validateField(true);
+    console.log(result);
+    if (result) return;
+    this.props.onSubmit(this.state.data);
   }
 
   render() {
     const { classes, mode} = this.props;
+    const { data, errors } = this.state;
     const shrink = mode === 'edit' ? true : undefined;
     return (
       <React.Fragment>
@@ -74,10 +160,11 @@ class UserForm extends Component {
               <div className={classes.textWrap}>
                 <TextField
                   required
-                  value={this.state.avatar}
+                  value={data.avatar}
                   label="Avatar url"
                   onChange={this.handleChange('avatar')}
                   className={classes.textField}
+                  error={errors.avatar}
                   InputLabelProps={{
                     shrink,
                   }}
@@ -85,14 +172,15 @@ class UserForm extends Component {
               </div>
             </Grid>
             <Grid item xs={12} sm={2}>
-              {this.state.avatar ? <Avatar src={this.state.avatar} className={classes.avatar} /> : null}
+              {data.avatar ? <Avatar src={data.avatar} className={classes.avatar} /> : null}
             </Grid>
             <Grid item xs={12} sm={6}>
               <div className={classes.textWrap}>
                 <TextField
                   required
                   label="Firstname"
-                  value={this.state.firstName}
+                  value={data.firstName}
+                  error={errors.firstName}
                   onChange={this.handleChange('firstName')}
                   className={classes.textField}
                   InputLabelProps={{
@@ -106,7 +194,8 @@ class UserForm extends Component {
                 <TextField
                   required
                   label="Lastname"
-                  value={this.state.lastName}
+                  value={data.lastName}
+                  error={errors.lastName}
                   onChange={this.handleChange('lastName')}
                   className={classes.textField}
                   InputLabelProps={{
@@ -120,7 +209,7 @@ class UserForm extends Component {
               <FormControl className={classes.textField}>
                 <InputLabel htmlFor="gender" shrink>Gender</InputLabel>
                 <Select
-                  value={this.state.gender}
+                  value={data.gender}
                   onChange={this.handleChange('gender')}
                 >
                   <MenuItem value="">
@@ -137,7 +226,8 @@ class UserForm extends Component {
               <TextField
                 required
                 label="Birthday"
-                value={this.state.dob}
+                value={data.dob}
+                error={errors.dob}
                 type="date"
                 onChange={this.handleChange('dob')}
                 className={classes.textField}
@@ -153,7 +243,8 @@ class UserForm extends Component {
                 required
                 label="email"
                 type="email"
-                value={this.state.email}
+                value={data.email}
+                error={errors.email}
                 onChange={this.handleChange('email')}
                 className={classes.textField}
                 InputLabelProps={{
@@ -168,7 +259,8 @@ class UserForm extends Component {
                 required
                 type="number"
                 label="Mobile Number"
-                value={this.state.mobileNumber}
+                value={data.mobileNumber}
+                error={errors.mobileNumber}
                 onChange={this.handleChange('mobileNumber')}
                 className={classes.textField}
                 InputLabelProps={{
@@ -178,8 +270,13 @@ class UserForm extends Component {
             </div>
             </Grid>
           </Grid>
-          <Button color="primary" size="medium" variant="raised"
-            type="submit">{mode ==='edit' ? 'Update user' : 'Add user'}</Button>
+          <Button
+            color="primary"
+            size="medium"
+            variant="raised"
+            type="submit"
+            // disabled={this.state.formInvalid}
+            >{mode ==='edit' ? 'Update user' : 'Add user'}</Button>
         </form>
       </React.Fragment>
     )

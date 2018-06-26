@@ -23,7 +23,6 @@ class Auth {
   }
 
   isAuthenticated() {
-    console.log('is auth called')
     let userToken = localStorage.getItem('token');
     this._token = userToken;
     return userToken;
