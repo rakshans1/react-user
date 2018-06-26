@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router';
 
+import styled from 'styled-components';
+
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -13,14 +15,18 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {authService} from '../services';
 import {authSuccess} from '../actions/authActions';
 
+const Title = styled(Typography)`
+  text-align: center;
+  padding: 48px 24px
+`;
 
-
+const Styledform = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 32px
+`;
 
 const styles = (theme) => ({
-  title: {
-    textAlign: 'center',
-    padding: '48px 24px'
-  },
   wrap: {
     display: 'flex',
     justifyContent: 'center',
@@ -35,11 +41,6 @@ const styles = (theme) => ({
   },
   linearLoader: {
     height: '5px'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '32px'
   },
   card: {
     height: '400px',
@@ -106,13 +107,11 @@ export class Login extends Component {
 
       return (
         <React.Fragment>
-        <Typography variant="display1" className={classes.title}>
-            Login
-        </Typography>
+        <Title variant="display1">Login</Title>
         <div className={classes.wrap}>
         <Card className={classes.card}>
           {loading ? <LinearProgress/> : <div className={classes.linearLoader}></div>}
-          <form className={classes.form} autoComplete="off" onSubmit={(e) => this.onSubmit(e)}>
+          <Styledform onSubmit={(e) => this.onSubmit(e)}>
             <div className={classes.textWrap}>
             <TextField
               required
@@ -132,7 +131,7 @@ export class Login extends Component {
             </div>
             <Button color="primary" size="medium" variant="raised"
             type="submit">Login</Button>
-          </form>
+          </Styledform>
 
         </Card>
       </div>

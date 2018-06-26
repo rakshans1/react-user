@@ -23,6 +23,11 @@ const styles = (theme) => ({
 })
 
 const sortRow = (order, orderBy) => {
+  if (orderBy === 'age') {
+    return order === 'desc'
+      ? (a, b) => (getAge(b['dob']) < getAge(a['dob']) ? -1 : 1)
+      : (a, b) => (getAge(a['dob']) < getAge(b['dob']) ? -1 : 1);
+  }
   return order === 'desc'
   ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
   : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1);
