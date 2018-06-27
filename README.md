@@ -23,7 +23,7 @@ Then open http://localhost:3000/ to see your app.
 ## Building project
 
 ```bash
-npm run
+npm run build
 ```
 
 ### Built Using
