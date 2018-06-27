@@ -205,7 +205,7 @@ class UserForm extends Component {
             </Grid>
             <Grid item xs={12} sm={6}>
             <div className={classes.textWrap}>
-              <FormControl className={classes.textField}>
+              <FormControl className={classes.textField} required>
                 <InputLabel htmlFor="gender" shrink>Gender</InputLabel>
                 <Select
                   value={data.gender}
