@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rakshans1/react-user.svg?branch=master)](https://travis-ci.org/rakshans1/react-user)
+
 React User
 ========================================
 
