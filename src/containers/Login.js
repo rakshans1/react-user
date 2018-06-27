@@ -13,7 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import {authService} from '../services';
-import {authSuccess} from '../actions/authActions';
+import {authSuccess, authDestroy} from '../actions/authActions';
+import sessionTimeout from '../utils/sessionTimeout';
 
 const Title = styled(Typography)`
   text-align: center;
@@ -81,6 +82,11 @@ export class Login extends Component {
     })
   }
 
+  logout = () => {
+    authService.logout();
+    this.props.authDestroy();
+  }
+
   async onSubmit(e) {
     e.preventDefault();
     const {username, password} = this.state;
@@ -88,6 +94,7 @@ export class Login extends Component {
     this.setState({loading: true});
     authService.login(username, password)
       .then((token) => {
+        sessionTimeout(this.logout);
         this.props.authSuccess(token);
       })
       .catch(e => {
@@ -145,7 +152,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  authSuccess
+  authSuccess,
+  authDestroy
 }
 
 Login = withStyles(styles)(Login);

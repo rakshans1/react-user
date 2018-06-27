@@ -1,16 +1,25 @@
-import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 
 
 const sessionTimeout = (logoutFunc) => {
   const threshold = 1000 * 60 * 30; // 30 minute
-  let logoutTimer = null;
+  let logoutTimer;
 
   const resetTimer = () => {
-    if (logoutTimer) clearTimeout(logoutTimer);
-    logoutTimer = setTimeout(logoutFunc, threshold);
+    clearTimeoutFunc();
+    setTimeoutFunc();
   }
 
-  const dreset = debounce(resetTimer, 1000);
+  const clearTimeoutFunc = () => {
+    if (logoutTimer) clearTimeout(logoutTimer);
+  }
+  const setTimeoutFunc = () => {
+    logoutTimer = setTimeout(() => {
+      clearTimeoutFunc();
+      logoutFunc()
+    }, threshold);
+  }
+  const treset = throttle(resetTimer, 1000);
 
 
   [
@@ -21,10 +30,10 @@ const sessionTimeout = (logoutFunc) => {
     'scroll',
     'keypress'
   ].forEach(event => {
-    window.addEventListener(event, dreset);
+    window.addEventListener(event, treset);
   })
 
-  logoutTimer = setTimeout(logoutFunc, threshold);
+  setTimeoutFunc();
 }
 
 export default sessionTimeout;
