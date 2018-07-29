@@ -10,14 +10,15 @@ import {
 import configureStore from './store/configureStore';
 import { Provider } from 'react-redux'
 
+import Loadable from 'react-loadable';
+
 import theme from './Theme';
 
 import {authSuccess, authDestroy} from './actions/authActions';
 import { authService } from './services';
 import sessionTimeout from './utils/sessionTimeout';
 
-import Main from './containers/Main';
-import Login from './containers/Login';
+import Loading from './components/Loading';
 
 const store = configureStore();
 
@@ -25,6 +26,17 @@ const logout = () => {
   authService.logout();
   store.dispatch(authDestroy());
 }
+
+const LoadableLogin = Loadable({
+  loader: () => import('./containers/Login'),
+  loading: Loading
+});
+
+const LoadableMain = Loadable({
+  loader: () => import('./containers/Main'),
+  loading: Loading
+});
+
 class App extends Component {
   render() {
     const token = authService.isAuthenticated();
@@ -39,8 +51,8 @@ class App extends Component {
           <CssBaseline />
           <Router>
             <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/" component={Main} />
+              <Route path="/login" component={LoadableLogin} />
+              <Route path="/" component={LoadableMain} />
             </Switch>
           </Router>
         </MuiThemeProvider>
