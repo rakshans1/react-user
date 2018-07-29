@@ -15,14 +15,13 @@ const styles = (theme) => ({
 
 const Loading = (props) => {
   const { classes } = props;
-  console.log(props);
   if (props.error) {
     return (
       <div className={classes.wrap}>
         <Button variant="contained" color="primary"  onClick={ props.retry }>Retry</Button>
       </div>
     )
-  } else if (props.pastDelay) {
+  } else if (props.pastDelay || props.pastDelay === undefined) {
     return (
       <div className={classes.wrap}>
         <CircularProgress />
