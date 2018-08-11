@@ -1,3 +1,4 @@
+import reducerRegistry from './reducerRegister';
 
 import {
   USER_LIST_LOADING,
@@ -7,12 +8,13 @@ import {
   USER_DELETE
 } from '../actions/usersActions';
 
+const reducerName = 'users';
 const initialState = {
   isLoading: false,
   list: []
 }
 
-function authReducer(state = initialState, action) {
+function userReducer(state = initialState, action) {
   switch(action.type) {
     case USER_LIST_LOADING:
       return Object.assign({}, state, {
@@ -48,4 +50,5 @@ function authReducer(state = initialState, action) {
   }
 }
 
-export default authReducer;
+reducerRegistry.register(reducerName, userReducer);
+export default userReducer;

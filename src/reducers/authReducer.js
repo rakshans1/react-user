@@ -1,6 +1,7 @@
-
+import reducerRegistry from './reducerRegister';
 import { AUTH_USER_SUCCESS, AUTH_USER_DESTROY } from '../actions/authActions';
 
+const reducerName = 'auth';
 const initialState = {
   isAuthenticated: false,
   token: null
@@ -23,4 +24,5 @@ function authReducer(state = initialState, action) {
   }
 }
 
+reducerRegistry.register(reducerName, authReducer);
 export default authReducer;
