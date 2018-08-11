@@ -1,6 +1,12 @@
-import {createStore} from 'redux';
+import {createStore, compose} from 'redux';
 import reducers from '../reducers';
 
 export default function() {
-  return createStore(reducers);
+  const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+  const enhancers = [reduxDevtools];
+
+  const composedEnhancers = compose(...enhancers);
+
+  return createStore(reducers, undefined, composedEnhancers);
 }
