@@ -8,5 +8,5 @@ export default function() {
 
   const composedEnhancers = compose(...enhancers);
 
-  return createStore(reducers);
+  return createStore(reducers, undefined, composedEnhancers);
 }
