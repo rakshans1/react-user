@@ -12,7 +12,7 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^2.0.0-next.3e165448",
     "redux": "^4.0.0"
   },
   "scripts": {
@@ -27,5 +27,17 @@
   "devDependencies": {
     "redux-logger": "^3.0.6",
     "webpack-bundle-analyzer": "^2.13.1"
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">0.25%",
+      "not op_mini all",
+      "ie 11"
+    ]
   }
 }
