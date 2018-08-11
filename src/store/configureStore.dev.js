@@ -9,9 +9,9 @@ export default function() {
   const middlewares = [logger];
   const middlewareEnhancers = applyMiddleware(...middlewares);
 
-  const reduxDEvtools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+  const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-  const enhancers = [middlewareEnhancers, monitorReducerEnhancer, reduxDEvtools];
+  const enhancers = [middlewareEnhancers, monitorReducerEnhancer, reduxDevtools];
   const composedEnhancers = compose(...enhancers);
 
   const store = createStore(reducers, undefined, composedEnhancers);
