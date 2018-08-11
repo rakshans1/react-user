@@ -27,22 +27,22 @@ const styles = (theme) => ({
 
 
 const LoadableHeader = Loadable({ // Example for component base splitting
-  loader: () => import('../components/Header'),
+  loader: () => import(/* webpackChunkName: "Header" */'../components/Header'),
   loading: () => null
 });
 
 const LoadableView = Loadable({ //Example of route based splitting
-  loader: () => import('./View'),
+  loader: () => import(/* webpackChunkName: "View" */'./View'),
   loading: Loading
 });
 
 const LoadableEdit = Loadable({
-  loader: () => import('./Edit'),
+  loader: () => import(/* webpackChunkName: "Edit" */'./Edit'),
   loading: Loading
 });
 
 const LoadableNew = Loadable({
-  loader: () => import('./New'),
+  loader: () => import(/* webpackChunkName: "New" */'./New'),
   loading: Loading
 });
 

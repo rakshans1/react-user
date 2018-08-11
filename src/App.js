@@ -28,12 +28,12 @@ const logout = () => {
 }
 
 const LoadableLogin = Loadable({
-  loader: () => import('./containers/Login'),
+  loader: () => import(/* webpackChunkName: "Login" */'./containers/Login'),
   loading: Loading
 });
 
 const LoadableMain = Loadable({
-  loader: () => import('./containers/Main'),
+  loader: () => import(/* webpackChunkName: "Main" */'./containers/Main'),
   loading: Loading
 });
 
