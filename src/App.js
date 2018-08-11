@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
 
 import configureStore from './store/configureStore';
 import { Provider } from 'react-redux'
 
-import Loadable from 'react-loadable';
-
 import theme from './Theme';
+import Routes from './Routes';
 
 import {authSuccess, authDestroy} from './actions/authActions';
 import { authService } from './services';
 import sessionTimeout from './utils/sessionTimeout';
-
-import Loading from './components/Loading';
 
 const store = configureStore();
 
@@ -27,15 +19,7 @@ const logout = () => {
   store.dispatch(authDestroy());
 }
 
-const LoadableLogin = Loadable({
-  loader: () => import(/* webpackChunkName: "Login" */'./containers/Login'),
-  loading: Loading
-});
 
-const LoadableMain = Loadable({
-  loader: () => import(/* webpackChunkName: "Main" */'./containers/Main'),
-  loading: Loading
-});
 
 class App extends Component {
   render() {
@@ -49,12 +33,7 @@ class App extends Component {
       <Provider store={store}>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
-          <Router>
-            <Switch>
-              <Route path="/login" component={LoadableLogin} />
-              <Route path="/" component={LoadableMain} />
-            </Switch>
-          </Router>
+          <Routes />
         </MuiThemeProvider>
       </Provider>
     );
