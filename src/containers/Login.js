@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router';
 
-import styled from 'styled-components';
-
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -16,17 +14,6 @@ import {authService} from '../services';
 import {authSuccess, authDestroy} from '../actions/authActions';
 import sessionTimeout from '../utils/sessionTimeout';
 
-const Title = styled(Typography)`
-  text-align: center;
-  padding: 48px 24px
-`;
-
-const Styledform = styled.form`
-  display: flex;
-  flex-direction: column;
-  padding: 32px
-`;
-
 const styles = (theme) => ({
   wrap: {
     display: 'flex',
@@ -36,6 +23,10 @@ const styles = (theme) => ({
     [theme.breakpoints.down('sm')]: {
       padding: '8px'
     }
+  },
+  title: {
+    textAlign: 'center',
+    padding: '48px 24px',
   },
   loading: {
     height: '100px',
@@ -49,6 +40,11 @@ const styles = (theme) => ({
     [theme.breakpoints.down('sm')]: {
       minWidth: '304px',
     }
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '32px',
   },
   textField: {
     width: '448px',
@@ -114,11 +110,11 @@ export class Login extends Component {
 
       return (
         <React.Fragment>
-        <Title variant="display1">Login</Title>
+        <Typography className={classes.title} variant="display1">Login</Typography>
         <div className={classes.wrap}>
         <Card className={classes.card}>
           {loading ? <LinearProgress/> : <div className={classes.linearLoader}></div>}
-          <Styledform onSubmit={(e) => this.onSubmit(e)}>
+          <form className={classes.form} onSubmit={(e) => this.onSubmit(e)}>
             <div className={classes.textWrap}>
             <TextField
               required
@@ -138,7 +134,7 @@ export class Login extends Component {
             </div>
             <Button color="primary" size="medium" variant="raised"
             type="submit">Login</Button>
-          </Styledform>
+          </form>
 
         </Card>
       </div>
