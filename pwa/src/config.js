@@ -25,7 +25,7 @@ export const CACHE_RULES = {
     type: "js"
   },
   img: {
-    test: /static\/.*\.(?:png|jpg|jpeg|svg|gif)$/,
+    test: /.*\.(?:png|jpg|jpeg|svg|gif)$/,
     type: "image"
   }
 };
