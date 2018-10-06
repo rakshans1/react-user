@@ -7,7 +7,7 @@ cache:
 script:
   - npm install
   - npm run build:production
-  - mv build/index.html build/200.html
+  - cp build/index.html build/200.html
 deploy:
   provider: pages
   skip_cleanup: true
