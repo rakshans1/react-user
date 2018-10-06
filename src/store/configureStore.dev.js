@@ -1,5 +1,4 @@
 import {applyMiddleware, createStore, compose} from 'redux';
-//import logger from 'redux-logger'
 import logger from '../middleware/logger';
 import monitorReducerEnhancer from '../enhancers/monitorReducer';
 import reducers from '../reducers';
