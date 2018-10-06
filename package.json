@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^1.4.3",
-    "@material-ui/icons": "^2.0.1",
+    "@material-ui/core": "^3.1.2",
+    "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "compression": "^1.7.3",
     "lodash.throttle": "^4.1.1",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "react-loadable": "^5.4.0",
     "react-redux": "^5.0.7",
-    "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.0.0-next.3e165448",
+    "react-scripts": "2.0.4",
     "redux": "^4.0.0"
   },
   "scripts": {
@@ -26,8 +26,7 @@
     "analyze": "node ./tools/stats.js"
   },
   "devDependencies": {
-    "redux-logger": "^3.0.6",
-    "webpack-bundle-analyzer": "^2.13.1"
+    "webpack-bundle-analyzer": "^3.0.2"
   },
   "browserslist": {
     "development": [
