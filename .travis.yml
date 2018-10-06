@@ -4,13 +4,8 @@ node_js:
 cache:
   directories:
   - node_modules
-  - pwa/node_modules
 script:
   - npm install
-  - cd pwa
-  - npm install
-  - npm run build
-  - cd ../
   - npm run build:prod
   - mv build/index.html build/200.html
 deploy:
