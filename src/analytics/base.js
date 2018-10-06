@@ -6,7 +6,7 @@
  * The tracking ID for your Google Analytics property.
  * https://support.google.com/analytics/answer/1032385
  */
-const TRACKING_ID = 'UA-77422710-4';
+const TRACKING_ID = 'UA-77422710-5';
 
 
 /**
