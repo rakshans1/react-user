@@ -50,6 +50,10 @@ class New extends Component {
     classes: PropTypes.object.isRequired
   }
 
+  componentDidMount() {
+    document.title = "Add User | React Users";
+  }
+
   onSubmit = (values) => {
     this.setState({loading: true});
     const user = Object.assign({}, values, {createdAt: new Date().toISOString()})

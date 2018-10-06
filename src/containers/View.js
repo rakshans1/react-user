@@ -65,6 +65,7 @@ class View extends Component {
   }
 
   componentDidMount() {
+    document.title = "View | React Users";
     const { match } = this.props;
     const userId = match.params.id;
     this.setState({ userId });
