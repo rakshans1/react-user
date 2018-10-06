@@ -37,7 +37,7 @@ class App extends Component {
       <Provider store={store}>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
-          <Router>
+          <Router basename={process.env.PUBLIC_URL}>
             <Switch>
               <Route path="/login" component={Login} />
               <Route path="/" component={Main} />
