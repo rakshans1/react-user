@@ -1,5 +1,4 @@
 import {applyMiddleware, createStore, compose} from 'redux';
-//import logger from 'redux-logger'
 import logger from '../middleware/logger';
 import monitorReducerEnhancer from '../enhancers/monitorReducer';
 import reducers from '../reducers';
@@ -16,7 +15,7 @@ export default function() {
   const store = createStore(reducers, undefined, composedEnhancers);
 
   if (module.hot) {
-    module.hot.accept('../reducers', () => 
+    module.hot.accept('../reducers', () =>
       store.replaceReducer(reducers)
     )
   }
