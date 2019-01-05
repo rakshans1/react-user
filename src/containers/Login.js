@@ -72,6 +72,10 @@ export class Login extends Component {
     classes: PropTypes.object.isRequired
   }
 
+  componentDidMount() {
+    document.title = "Login | React Users";
+  }
+
   handleChange = name => event =>  {
     this.setState({
       [name]: event.target.value
