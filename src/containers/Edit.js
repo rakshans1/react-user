@@ -58,6 +58,7 @@ class Edit extends Component {
   }
 
   componentDidMount() {
+    document.title = "Edit User | React Users";
     const { match } = this.props;
     const userId = match.params.id;
     this.setState({userId});

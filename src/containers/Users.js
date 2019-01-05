@@ -32,6 +32,7 @@ export class Users extends Component {
   }
 
   componentDidMount() {
+    document.title = "Home | React Users";
     const {users} = this.props;
     if (!users.list.length) {
       this.props.loadUserList();
