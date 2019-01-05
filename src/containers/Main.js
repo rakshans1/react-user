@@ -8,14 +8,12 @@ import {
 } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 
-import Header from '../components/Header';
+import Loadable from 'react-loadable';
+import Loading from  '../components/Loading';
 
 import { authDestroy } from '../actions/authActions';
 import {authService} from '../services';
 import Users from './Users';
-import Edit from './Edit';
-import View from './View';
-import New from './New';
 
 const styles = (theme) => ({
   main: {
@@ -26,6 +24,29 @@ const styles = (theme) => ({
     }
   }
 });
+
+
+const LoadableHeader = Loadable({ // Example for component base splitting
+  loader: () => import(/* webpackChunkName: "Header" */'../components/Header'),
+  loading: () => null
+});
+
+const LoadableView = Loadable({ //Example of route based splitting
+  loader: () => import(/* webpackChunkName: "View" */'./View'),
+  loading: Loading
+});
+
+const LoadableEdit = Loadable({
+  loader: () => import(/* webpackChunkName: "Edit" */'./Edit'),
+  loading: Loading
+});
+
+const LoadableNew = Loadable({
+  loader: () => import(/* webpackChunkName: "New" */'./New'),
+  loading: Loading
+});
+
+
 
 export class Main extends Component {
   static propTypes = {
@@ -44,12 +65,12 @@ export class Main extends Component {
     }
     return (
       <React.Fragment>
-        <Header logout={this.logout} isAuthenticated={isAuthenticated}/>
+        <LoadableHeader logout={this.logout} isAuthenticated={isAuthenticated}/>
         <main className={classes.main}>
           <Switch>
-            <Route path="/new" component={New} />
-            <Route path="/user/:id" component={View} />
-            <Route path="/edit/:id" component={Edit} />
+            <Route path="/new" component={LoadableNew} />
+            <Route path="/user/:id" component={LoadableView} />
+            <Route path="/edit/:id" component={LoadableEdit} />
             <Route path="/" exact component={Users} />
           </Switch>
         </main>
