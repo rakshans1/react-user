@@ -15,6 +15,9 @@ import { authDestroy } from '../actions/authActions';
 import {authService} from '../services';
 import Users from './Users';
 
+//Loading reducers dynamically when needed;
+import '../reducers/usersReducer';
+
 const styles = (theme) => ({
   main: {
     height: '100%',
