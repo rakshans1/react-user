@@ -6,13 +6,12 @@ cache:
   - node_modules
 script:
   - npm install
-  - npm run build:production
+  - npm run build:prod
+  - mv build/index.html build/200.html
 deploy:
-  provider: pages
+  provider: surge
+  project: ./build/
   skip_cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  committer-from-gh: true
-  local_dir: build
+  domain: https://react-user.surge.sh
   on:
     branch: master
