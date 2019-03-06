@@ -11,11 +11,11 @@ action "Install" {
 action "Build" {
   needs = "Install"
   uses = "actions/npm@master"
-  args = "build"
+  args = "run build"
 }
 
 action "GitHub Action for Docker" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["Build"]
-  args = "run -it rakshans1/nodejs-yarn . git status"
+  args = "run -t rakshans1/nodejs-yarn . git status"
 }
