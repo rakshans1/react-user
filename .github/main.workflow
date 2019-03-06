@@ -1,9 +1,21 @@
-workflow "Test" {
-  on = "pull_request"
-  resolves = ["Test run"]
+workflow "Build, Test, and Publish" {
+  on = "push"
+  resolves = ["GitHub Action for Docker"]
 }
 
-action "Test run" {
-  uses = "actions/npm@4633da3702a5366129dca9d8cc3191476fc3433c"
-  args = "test"
+action "Install" {
+  uses = "actions/npm@master"
+  args = "install"
+}
+
+action "Build" {
+  needs = "Install"
+  uses = "actions/npm@master"
+  args = "build"
+}
+
+action "GitHub Action for Docker" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["Build"]
+  args = "run -it rakshans1/nodejs-yarn . git status"
 }
