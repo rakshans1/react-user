@@ -1,6 +1,6 @@
-workflow "Build, Test, and Publish" {
+workflow "Install, Test" {
   on = "push"
-  resolves = ["GitHub Action for Docker"]
+  resolves = ["Test"]
 }
 
 action "Install" {
@@ -8,14 +8,10 @@ action "Install" {
   args = "install"
 }
 
-action "Build" {
+action "Test" {
   needs = "Install"
   uses = "actions/npm@master"
   args = "run build"
 }
 
-action "GitHub Action for Docker" {
-  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Build"]
-  args = "build -t rakshans1/react-user ."
-}
+
